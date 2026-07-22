@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Smart Energy",
+        "description": "Point the engine at your Str\u00f8mligning price sensors.",
+        "data": {
+          "today_entity": "Today price sensor",
+          "tomorrow_entity": "Tomorrow price sensor",
+          "prices_attribute": "Prices attribute name",
+          "windows": "Best-window durations (hours, comma separated)",
+          "default_window": "Default window for best today/tomorrow (hours)",
+          "heatmap_hours": "Number of hours in the heatmap"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Smart Energy is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Smart Energy options",
+        "data": {
+          "today_entity": "Today price sensor",
+          "tomorrow_entity": "Tomorrow price sensor",
+          "prices_attribute": "Prices attribute name",
+          "windows": "Best-window durations (hours, comma separated)",
+          "default_window": "Default window for best today/tomorrow (hours)",
+          "heatmap_hours": "Number of hours in the heatmap"
+        }
+      }
+    }
+  }
+}

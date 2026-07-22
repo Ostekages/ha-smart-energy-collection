@@ -1,0 +1,85 @@
+# Smart Energy — Mushroom dashboard card
+#
+# Paste this into a dashboard: Edit dashboard → ⋮ → Raw configuration editor,
+# OR add a card → Manual → paste. It is one vertical stack, so you can drop it
+# straight in as a single card.
+#
+# Requires the "Mushroom" frontend package from HACS (see SETUP below).
+# The heatmap uses a built-in Markdown card (no extra install), and matches the
+# 🟢🟡🔴 + bar mock-up from the original design.
+
+type: vertical-stack
+cards:
+  # ── Current price (big) ─────────────────────────────────────────────
+  - type: custom:mushroom-template-card
+    primary: Elpris lige nu
+    secondary: >-
+      {{ state_attr('sensor.smart_energy','current') | float(0) | round(2) }}
+      {{ state_attr('sensor.smart_energy','unit') or 'kr/kWh' }}
+    icon: mdi:flash
+    icon_color: >-
+      {% set hrs = state_attr('sensor.smart_energy','next_hours') %}
+      {% set lvl = hrs[0].level if hrs else 2 %}
+      {{ ['green','light-green','amber','orange','red'][lvl] }}
+    layout: horizontal
+    fill_container: true
+    multiline_secondary: true
+
+  # ── Star recommendation: cheapest window from NOW ──────────────────
+  - type: custom:mushroom-template-card
+    primary: >-
+      ⭐ Bedste {{ state_attr('sensor.smart_energy','default_window') or 3 }} timer
+    secondary: >-
+      {% set w = state_attr('sensor.smart_energy','best_today') %}
+      {% if w %}{{ w.label }}  ·  {{ w.average_price | float(0) | round(2) }}
+      {{ state_attr('sensor.smart_energy','unit') or 'kr/kWh' }}{% else %}—{% endif %}
+    icon: mdi:star
+    icon_color: green
+    layout: horizontal
+    fill_container: true
+
+  # ── Chips: today / tomorrow / trend ────────────────────────────────
+  - type: custom:mushroom-chips-card
+    alignment: center
+    chips:
+      - type: template
+        icon: mdi:calendar-today
+        content: >-
+          {% set w = state_attr('sensor.smart_energy','best_today') %}
+          I dag {{ w.label if w else '—' }}
+        icon_color: green
+      - type: template
+        icon: mdi:calendar-arrow-right
+        content: >-
+          {% set w = state_attr('sensor.smart_energy','best_tomorrow') %}
+          I morgen {{ w.label if w else '—' }}
+        icon_color: >-
+          {{ 'blue' if state_attr('sensor.smart_energy','has_tomorrow') else 'disabled' }}
+      - type: template
+        icon: >-
+          {% set t = state_attr('sensor.smart_energy','trend') %}
+          {{ 'mdi:arrow-down-bold' if t == 'better_tomorrow'
+             else 'mdi:arrow-up-bold' if t == 'better_today'
+             else 'mdi:equal' }}
+        content: >-
+          {% set t = state_attr('sensor.smart_energy','trend') %}
+          {{ 'I morgen er billigere' if t == 'better_tomorrow'
+             else 'I dag er billigst' if t == 'better_today'
+             else 'Ens' if t == 'equal' else '—' }}
+
+  # ── Heatmap list (next N hours) — built-in Markdown card ────────────
+  - type: markdown
+    content: >-
+      {% set hrs = state_attr('sensor.smart_energy','next_hours') %}
+      {% if hrs %}
+      {% set maxp = (hrs | map(attribute='price') | max) %}
+      {% set dots = ['🟢','🟢','🟡','🟠','🔴'] %}
+      ```
+      {% for h in hrs -%}
+      {% set n = ((h.price / maxp) * 12) | round(0,'floor') | int -%}
+      {{ dots[h.level] }} {{ h.time }} {{ '%5.2f'|format(h.price) }} {{ '█' * n }}
+      {% endfor -%}
+      ```
+      {% else %}
+      _Ingen prisdata endnu._
+      {% endif %}

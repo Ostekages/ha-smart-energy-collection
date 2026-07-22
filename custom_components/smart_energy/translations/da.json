@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Smart Energy",
+        "description": "Peg motoren mod dine Str\u00f8mligning-prissensorer.",
+        "data": {
+          "today_entity": "Prissensor for i dag",
+          "tomorrow_entity": "Prissensor for i morgen",
+          "prices_attribute": "Navn p\u00e5 prices-attribut",
+          "windows": "Bedste-vindue l\u00e6ngder (timer, kommasepareret)",
+          "default_window": "Standardvindue til bedste i dag/i morgen (timer)",
+          "heatmap_hours": "Antal timer i heatmap"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Smart Energy er allerede konfigureret."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Smart Energy indstillinger",
+        "data": {
+          "today_entity": "Prissensor for i dag",
+          "tomorrow_entity": "Prissensor for i morgen",
+          "prices_attribute": "Navn p\u00e5 prices-attribut",
+          "windows": "Bedste-vindue l\u00e6ngder (timer, kommasepareret)",
+          "default_window": "Standardvindue til bedste i dag/i morgen (timer)",
+          "heatmap_hours": "Antal timer i heatmap"
+        }
+      }
+    }
+  }
+}
