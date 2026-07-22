@@ -4,9 +4,9 @@
   "codeowners": [],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://github.com/Ostekages/smart_energy",
+  "documentation": "https://github.com/Ostekages/ha-smart-energy-collection",
   "iot_class": "calculated",
-  "issue_tracker": "https://github.com/Ostekages/smart_energy/issues",
+  "issue_tracker": "https://github.com/Ostekages/ha-smart-energy-collection/issues",
   "requirements": [],
   "version": "0.1.0"
 }
