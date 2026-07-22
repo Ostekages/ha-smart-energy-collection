@@ -117,7 +117,9 @@ class SmartEnergyOptionsFlow(OptionsFlow):
     """Allow reconfiguring after setup."""
 
     def __init__(self, config_entry: ConfigEntry) -> None:
-        self.config_entry = config_entry
+        # NB: don't assign to self.config_entry — in recent HA it's a
+        # read-only property and assigning raises (options flow 500 error).
+        self._entry = config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
@@ -125,5 +127,5 @@ class SmartEnergyOptionsFlow(OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=_normalise(user_input))
 
-        current = {**self.config_entry.data, **self.config_entry.options}
+        current = {**self._entry.data, **self._entry.options}
         return self.async_show_form(step_id="init", data_schema=_schema(current))
