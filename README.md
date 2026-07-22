@@ -7,6 +7,10 @@ intelligent, dashboard-ready data.
 > Philosophy: build the *engine* first, the dashboard is the easy part.
 > Integration = data + calculations. Dashboard = presentation.
 
+## Example look using the provided dashboard
+<img width="590" height="712" alt="image" src="https://github.com/user-attachments/assets/984db981-dca0-439d-88ff-60fbe9a03309" />
+
+
 ## What it does
 
 Reads your two Strømligning sensors:
